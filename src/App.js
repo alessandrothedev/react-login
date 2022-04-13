@@ -12,6 +12,7 @@ function App() {
     const [formValues, setFormValues] = useState(initialValues)
     const [form, setForm] = useState(true)
     const [message, setMessage] = useState(false)
+    const [errors, setErrors] = useState({})
 
     const handleInput = (e) => {
         const {name, value} = e.target;
@@ -23,12 +24,29 @@ function App() {
         e.preventDefault()
         setForm(false)
         setMessage(true)
+        setErrors(handleValidation(formValues))
     }
 
     const handleLogOut = () => {
         setForm(true)
         setMessage(false)
         setFormValues(initialValues)
+    }
+
+    const handleValidation = (values) => {
+        const formErrors = {}
+
+        if(!values.name) {
+            formErrors.name = 'Name required!'
+        }
+        if(!values.email) {
+            formErrors.email = 'An email address is required to log in!'
+        }
+        if(!values.password) {
+            formErrors.password = 'Password is required!'
+        }
+
+        return formErrors;
     }
 
   return (
@@ -41,8 +59,9 @@ function App() {
                 id='name' 
                 value={formValues.name} 
                 onChange={handleInput} 
-                required 
+                // required 
             /><br/>
+            <p>{errors.name}</p>
 
             <label htmlFor='email'>Email:</label>
             <input 
@@ -51,8 +70,9 @@ function App() {
                 id='email' 
                 value={formValues.email} 
                 onChange={handleInput} 
-                required 
+                // required 
             /><br/>
+            <p>{errors.email}</p>
 
             <label htmlFor='password'>Password:</label>
             <input 
@@ -61,15 +81,16 @@ function App() {
                 id='password' 
                 value={formValues.password} 
                 onChange={handleInput} 
-                required 
+                // required 
             /><br/>
+            <p>{errors.password}</p>
 
             <input type="submit" value="Submit" />
         </form>
         }
 
         {message && <>
-            <h2>You are now logged in!</h2>
+            <h2> {formValues.name}, You are now logged in!</h2>
             <button onClick={handleLogOut}>Log Out</button>
         </>}
     </div>
