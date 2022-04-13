@@ -13,6 +13,7 @@ function App() {
     const [form, setForm] = useState(true)
     const [message, setMessage] = useState(false)
     const [errors, setErrors] = useState({})
+    const [isValidated, setIsValidated] = useState(false)
 
     const handleInput = (e) => {
         const {name, value} = e.target;
@@ -38,12 +39,15 @@ function App() {
 
         if(!values.name) {
             formErrors.name = 'Name required!'
+            setIsValidated(true)
         }
         if(!values.email) {
             formErrors.email = 'An email address is required to log in!'
+            setIsValidated(true)
         }
         if(!values.password) {
             formErrors.password = 'Password is required!'
+            setIsValidated(true)
         }
 
         return formErrors;
@@ -61,7 +65,7 @@ function App() {
                 onChange={handleInput} 
                 // required 
             /><br/>
-            <p>{errors.name}</p>
+            {isValidated && <p>{errors.name}</p>}
 
             <label htmlFor='email'>Email:</label>
             <input 
@@ -72,7 +76,7 @@ function App() {
                 onChange={handleInput} 
                 // required 
             /><br/>
-            <p>{errors.email}</p>
+            {isValidated && <p>{errors.email}</p>}
 
             <label htmlFor='password'>Password:</label>
             <input 
@@ -83,7 +87,7 @@ function App() {
                 onChange={handleInput} 
                 // required 
             /><br/>
-            <p>{errors.password}</p>
+           {isValidated && <p>{errors.password}</p>}
 
             <input type="submit" value="Submit" />
         </form>
